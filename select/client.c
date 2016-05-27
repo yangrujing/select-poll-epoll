@@ -14,12 +14,16 @@ int main()
 	fd_set read_set;
 	fd_set write_set;
 
+	printf("sizeof fd_set: %d\n",sizeof(fd_set));
+
 	int sock = socket(AF_INET,SOCK_STREAM,0);
 	if(sock == -1)
 	{
 		perror("socket");
 		return -1;
 	}
+	printf("client's sock is : %d\n",sock);
+
 	struct sockaddr_in remote;
 	remote.sin_family = AF_INET;
 	remote.sin_port = htons(8080);

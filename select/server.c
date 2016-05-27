@@ -43,6 +43,7 @@ int start_up()
 int main()
 {
 	int sock = start_up();
+	printf("server socket is: %d\n",sock);
 	struct sockaddr_in client;
 	socklen_t client_len = sizeof(client);
 
@@ -68,9 +69,11 @@ int main()
 				max_fd = arr_fd[i];
 			}
 		}
+		printf("max_fd: %d\n",max_fd);
 
-		struct timeval timeout = {5,0};
-		switch(select(max_fd + 1,&read_set,NULL,NULL,&timeout))
+		//struct timeval timeout = {5,0};
+		//BLOCK wait
+		switch(select(max_fd + 1,&read_set,NULL,NULL,NULL))
 		{
 			case 0://timeout
 				printf("server timeout\n");
@@ -82,6 +85,7 @@ int main()
 				{
 					for(i = 0;i < _FD_NUM_;i++)
 					{
+						printf("arr_fd : %d\n",arr_fd[i]);
 						if(arr_fd[i] < 0)
 						  continue;
 						//accept client's connect
@@ -102,6 +106,7 @@ int main()
 								  arr_fd[j] = new_sock;
 								  break;
 								}
+								printf("Insert new_sock is : %d\n",new_sock);
 							}
 							if(j == _FD_NUM_)
 							{
